@@ -1,0 +1,22 @@
+@model MyBlogWebAppMVC.Domain.Models.Blog
+
+@{
+    ViewData["Title"] = "Blog Detayı";
+}
+
+<div class="container">
+    <h2>@Model.Title</h2>
+    <p><strong>Yazar:</strong> @Model.Author</p>
+    <p><strong>Yayınlanma Tarihi:</strong> @Model.PublishedDate.ToString("dd.MM.yyyy")</p>
+    <p><strong>Kategori:</strong> @Model.Category</p>
+    <hr />
+    <div>
+        @Html.Raw(Model.Content)
+    </div>
+
+    <!-- Opsiyonel: Görsel -->
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <img src="@Url.Content(Model.ImagePath)" alt="Blog Görseli" class="img-fluid" />
+    }
+</div>

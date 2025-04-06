@@ -1,0 +1,51 @@
+@model IEnumerable<MyBlogWebAppMVC.Domain.Models.Blog>
+
+@{
+    ViewData["Title"] = "Blog Yazıları";
+}
+
+<div class="row mb-3">
+    <div class="col-md-4">
+        <select class="form-select" id="categoryFilter" onchange="filterByCategory()">
+            <option value="">Tüm Kategoriler</option>
+            @foreach (var category in ViewBag.Categories as List<string>)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+</div>
+
+<div id="blogList">
+    @foreach (var blog in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>@blog.Title</h5>
+                <small>@blog.Author - @blog.PublishedDate.ToString("dd.MM.yyyy")</small>
+            </div>
+            <div class="card-body">
+                <p>@blog.Content.Substring(0, Math.Min(blog.Content.Length, 200))...</p>
+                <a href="/Blog/Details/@blog.Id" class="btn btn-primary">Detay</a>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function filterByCategory() {
+            var selectedCategory = document.getElementById("categoryFilter").value;
+            var blogCards = document.querySelectorAll("#blogList .card");
+
+            blogCards.forEach(function(card) {
+                var category = card.getAttribute("data-category"); // Eğer card'a data-category eklediyseniz
+                if (selectedCategory === "" || category === selectedCategory) {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+}
